@@ -41,18 +41,23 @@ public class ScenarioTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.className("submit-button")).click();
 
-        //считаем цену со странички, а то вдруг подорожает
-        String originalPrice = driver.findElement(By.xpath("//*[@id='add-to-cart-sauce-labs-fleece-jacket']/preceding-sibling::div[@data-test='inventory-item-price']")).getText();
+        //найти блок, в котором поля с нужным именем
+        String name = "Sauce Labs Fleece Jacket";
+        String inventoryItemXpath = "//div[@class='inventory_item'][descendant-or-self::a[contains(@id, 'title_link')][contains(., '%s')]]";
+        var inventoryItem = driver.findElement(By.xpath(inventoryItemXpath.formatted(name)));
 
-        //добавим товар в корзину
-        driver.findElement(By.id("add-to-cart-sauce-labs-fleece-jacket")).click();
+        //цена элемента
+        String originalPrice = inventoryItem.findElement(By.xpath("descendant::div[@data-test='inventory-item-price']")).getText();
+
+        //добавим товар в корзину, для этого ткнём кнопку в нужном блоке
+        inventoryItem.findElement(By.xpath("descendant::button")).click();
 
         //перейдём в корзину
         driver.findElement(By.cssSelector("[data-test='shopping-cart-link']")).click();
 
         //проверим, что там
         String itemName = driver.findElement(By.cssSelector("[data-test='inventory-item-name']")).getText();
-        Assert.assertEquals(itemName, "Sauce Labs Fleece Jacket");
+        Assert.assertEquals(itemName, name);
         String price = driver.findElement(By.cssSelector("[data-test='inventory-item-price']")).getText();
         Assert.assertEquals(price, originalPrice);
     }
