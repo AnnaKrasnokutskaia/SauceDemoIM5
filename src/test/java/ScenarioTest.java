@@ -1,11 +1,14 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 import java.util.HashMap;
 
 
@@ -30,9 +33,12 @@ public class ScenarioTest {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-infobars");
         driver = new ChromeDriver(options);
+        //неявное ожидание
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
     @Test
     public void checkScenario() {
+
         //открывает страницу по указанному url
         driver.get("https://www.saucedemo.com/");
 
@@ -41,10 +47,12 @@ public class ScenarioTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.className("submit-button")).click();
 
-        //найти блок, в котором поля с нужным именем
+        //имя товара
         String name = "Sauce Labs Fleece Jacket";
+
+        //найти блок, в котором поля с нужным именем
         String inventoryItemXpath = "//div[@class='inventory_item'][descendant-or-self::a[contains(@id, 'title_link')][contains(., '%s')]]";
-        var inventoryItem = driver.findElement(By.xpath(inventoryItemXpath.formatted(name)));
+        WebElement inventoryItem = driver.findElement(By.xpath(inventoryItemXpath.formatted(name)));
 
         //цена элемента
         String originalPrice = inventoryItem.findElement(By.xpath("descendant::div[@data-test='inventory-item-price']")).getText();
