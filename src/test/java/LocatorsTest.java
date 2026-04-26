@@ -64,6 +64,7 @@ public class LocatorsTest {
         options.addArguments("--disable-infobars");
         driver = new ChromeDriver(options);
     }
+
     @Test
     public void checkLocator() {
         //открывает страницу по указанному url

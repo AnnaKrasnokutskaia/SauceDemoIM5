@@ -36,6 +36,7 @@ public class ScenarioTest {
         //неявное ожидание
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
+
     @Test
     public void checkScenario() {
 
