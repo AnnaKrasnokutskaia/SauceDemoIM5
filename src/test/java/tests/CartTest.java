@@ -1,19 +1,22 @@
 package tests;
 
-import elements.CartItem;
-import elements.InventoryItem;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.CartPage;
+import pages.ProductsPage;
 
 public class CartTest extends BaseTest {
 
     //добавление продукта в корзину
-    @Test
+    @Test(description = "Проверка наличия в корзине добавленного продукта",
+            testName = "Проверка наличия в корзине добавленного продукта",
+            retryAnalyzer = Retry.class)
     public void checkAddedProductInCart() {
-        login();
+        loginPage.open();
+        loginPage.loginWithCredentials("standard_user", "secret_sauce");
         //выбрали продукт
-        InventoryItem product = productsPage.getItemByName("Sauce Labs Backpack");
+        ProductsPage.InventoryItem product = productsPage.getItemByName("Sauce Labs Backpack");
         //что искать будем на страничке, записали
         String expectedName = product.getName();
         String expectedDescription = product.getDescription();
@@ -23,7 +26,7 @@ public class CartTest extends BaseTest {
         //перешли в корзину
         productsPage.openCart();
         //нашли товар в корзине
-        CartItem cartItem = cartPage.getItemByName(expectedName);
+        CartPage.CartItem cartItem = cartPage.getItemByName(expectedName);
         //тут важно, что именно из проверок упало, и да мне лень делить на один метод - один ассерт
         SoftAssert softAssert = new SoftAssert();
         //мы вообще в корзине?
@@ -39,9 +42,12 @@ public class CartTest extends BaseTest {
     }
 
     //добавление нескольких товаров
-    @Test
+    @Test(description = "Проверка добавления в корзину нескольких продуктов",
+            testName = "Проверка добавления в корзину нескольких продуктов",
+            retryAnalyzer = Retry.class)
     public void checkSeveralProductsInCart() {
-        login();
+        loginPage.open();
+        loginPage.loginWithCredentials("standard_user", "secret_sauce");
 
         productsPage.getItemByName("Sauce Labs Backpack").addToCart();
         productsPage.getItemByName("Sauce Labs Bike Light").addToCart();
@@ -58,9 +64,12 @@ public class CartTest extends BaseTest {
     }
 
     //удаление из корзины
-    @Test
+    @Test(description = "Проверка удаления продукта из корзины",
+            testName = "Проверка удаления продукта из корзины",
+            retryAnalyzer = Retry.class)
     public void checkRemoveProductFromCart() {
-        login();
+        loginPage.open();
+        loginPage.loginWithCredentials("standard_user", "secret_sauce");
 
         productsPage.getItemByName("Sauce Labs Backpack").addToCart();
         productsPage.openCart();
