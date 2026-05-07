@@ -14,8 +14,7 @@ public class ProductsTest extends BaseTest{
     //Проверка списка товаров, наличие одного известного товара и корректности заполнения его карточки
     //Тут нужен софтассерт, чтоб понять, что именно упало
     @Test(description = "Проверка наличия на странице корректного списка продуктов",
-            testName = "Проверка наличия на странице корректного списка продуктов",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка наличия на странице корректного списка продуктов")
     public void checkProducts(){
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -33,8 +32,7 @@ public class ProductsTest extends BaseTest{
     //Добавление товара в корзину и удаление из неё
     //А тут не нужен софтассерт, потому что если товар в корзину не добавился, то его не удалить
     @Test(description = "Проверка добавления и удаления товаров из корзины",
-            testName = "Проверка добавления и удаления товаров из корзины",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка добавления и удаления товаров из корзины")
     public void checkAddRemoveChart(){
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -50,8 +48,7 @@ public class ProductsTest extends BaseTest{
     //сортировка по имени A -> Z
     @Test(description = "Проверка сортировки в алфавитном порядке",
             testName = "Проверка сортировки в алфавитном порядке",
-            groups = {"sort"},
-            retryAnalyzer = Retry.class)
+            groups = {"sort"})
     public void sortByNameAZTest() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -67,8 +64,7 @@ public class ProductsTest extends BaseTest{
     //сортировка по имени Z -> A
     @Test(description = "Проверка сортировки в обратном алфавитном порядке",
             testName = "Проверка сортировки в обратном алфавитном порядке",
-            groups = {"sort"},
-            retryAnalyzer = Retry.class)
+            groups = {"sort"})
     public void sortByNameZATest() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -84,8 +80,7 @@ public class ProductsTest extends BaseTest{
     //сортировка по цене по возрастанию
     @Test(description = "Проверка сортировки по возрастанию",
             testName = "Проверка сортировки по возрастанию",
-            groups = {"sort"},
-            retryAnalyzer = Retry.class)
+            groups = {"sort"})
     public void sortByPriceAscTest() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -101,8 +96,7 @@ public class ProductsTest extends BaseTest{
     //сортировка по цене по убыванию
     @Test(description = "Проверка сортировки по убыванию",
             testName = "Проверка сортировки по убыванию",
-            groups = {"sort"},
-            retryAnalyzer = Retry.class)
+            groups = {"sort"})
     public void sortByPriceDescTest() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");

@@ -6,8 +6,7 @@ import static org.testng.Assert.*;
 public class LoginTest extends BaseTest{
 
     @Test (description = "Проверка логина с корректными кредами",
-            testName = "Проверка логина",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка логина")
     public void checkLoginWithPositiveCred(){
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -27,7 +26,6 @@ public class LoginTest extends BaseTest{
 
     @Test(description = "Проверка логина с некорректными кредами",
             testName = "Проверка логина",
-            retryAnalyzer = Retry.class,
             dataProvider = "Тестовые данные для негативного логина")
     public void negativeLogin(String user, String password, String message){
         loginPage.open();

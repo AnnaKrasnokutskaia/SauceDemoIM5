@@ -10,8 +10,7 @@ public class CartTest extends BaseTest {
 
     //добавление продукта в корзину
     @Test(description = "Проверка наличия в корзине добавленного продукта",
-            testName = "Проверка наличия в корзине добавленного продукта",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка наличия в корзине добавленного продукта")
     public void checkAddedProductInCart() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -43,8 +42,7 @@ public class CartTest extends BaseTest {
 
     //добавление нескольких товаров
     @Test(description = "Проверка добавления в корзину нескольких продуктов",
-            testName = "Проверка добавления в корзину нескольких продуктов",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка добавления в корзину нескольких продуктов")
     public void checkSeveralProductsInCart() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");
@@ -65,8 +63,7 @@ public class CartTest extends BaseTest {
 
     //удаление из корзины
     @Test(description = "Проверка удаления продукта из корзины",
-            testName = "Проверка удаления продукта из корзины",
-            retryAnalyzer = Retry.class)
+            testName = "Проверка удаления продукта из корзины")
     public void checkRemoveProductFromCart() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");

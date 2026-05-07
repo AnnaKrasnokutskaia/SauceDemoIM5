@@ -3,28 +3,27 @@
 <suite thread-count="2"
        name="SauceDemo"
        parallel="classes">
-    
+
     <listeners>
         <listener class-name="tests.TestListener"/>
         <listener class-name="tests.AnnotationTransformer"/>
     </listeners>
 
-    <test name="All tests">
+    <test name="Chrome">
+        <classes>
+            <class name="tests.LoginTest"/>
+            <class name="tests.CartTest"/>
+            <class name="tests.ProductsTest"/>
+            <parameter name="browser" value="chrome"></parameter>
+        </classes>
+    </test>
+
+    <test name="Firefox">
         <classes>
             <class name="tests.LoginTest"/>
             <class name="tests.CartTest"/>
             <class name="tests.ProductsTest"/>
         </classes>
-    </test>
-
-    <test name="group">
-        <groups>
-            <run>
-                <include name="sort"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="tests.ProductsTest"/>
-        </classes>
+        <parameter name="browser" value="firefox"></parameter>
     </test>
 </suite>
