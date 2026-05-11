@@ -4,12 +4,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.ProductsPage;
+import tests.base.BaseTest;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductsTest extends BaseTest{
+public class ProductsTest extends BaseTest {
 
     //Проверка списка товаров, наличие одного известного товара и корректности заполнения его карточки
     //Тут нужен софтассерт, чтоб понять, что именно упало

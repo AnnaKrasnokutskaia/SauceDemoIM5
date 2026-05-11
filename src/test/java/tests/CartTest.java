@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.CartPage;
 import pages.ProductsPage;
+import tests.base.BaseTest;
 
 public class CartTest extends BaseTest {
 

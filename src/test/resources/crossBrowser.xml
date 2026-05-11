@@ -5,8 +5,8 @@
        parallel="classes">
 
     <listeners>
-        <listener class-name="tests.TestListener"/>
-        <listener class-name="tests.AnnotationTransformer"/>
+        <listener class-name="utils.TestListener"/>
+        <listener class-name="utils.AnnotationTransformer"/>
     </listeners>
 
     <test name="Chrome">

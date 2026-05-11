@@ -1,4 +1,4 @@
-package tests;
+package tests.base;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,16 +8,17 @@ import org.testng.annotations.*;
 import pages.CartPage;
 import pages.LoginPage;
 import pages.ProductsPage;
+import utils.TestListener;
 
 import java.time.Duration;
 import java.util.HashMap;
 
 @Listeners(TestListener.class)
 public class BaseTest {
-    WebDriver driver;
-    LoginPage loginPage;
-    ProductsPage productsPage;
-    CartPage cartPage;
+    protected WebDriver driver;
+    protected LoginPage loginPage;
+    protected ProductsPage productsPage;
+    protected CartPage cartPage;
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
