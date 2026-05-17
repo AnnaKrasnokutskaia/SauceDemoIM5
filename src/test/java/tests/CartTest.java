@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,6 +13,15 @@ public class CartTest extends BaseTest {
     //добавление продукта в корзину
     @Test(description = "Проверка наличия в корзине добавленного продукта",
             testName = "Проверка наличия в корзине добавленного продукта")
+    @Description("Проверка наличия в корзине добавленного продукта")
+    @Epic("E2E")
+    @Feature("C")
+    @Story("Negative Login")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.saucedemo.com/")
+    @TmsLink("ITM-5")
+    @Issue("ITM-5")
+    @Owner("Anna Krasnokutskaia")
     public void checkAddedProductInCart() {
         loginPage.open();
         loginPage.loginWithCredentials("standard_user", "secret_sauce");

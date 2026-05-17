@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ public class CartPage extends BasePage {
         return driver.findElement(TITLE).getText();
     }
 
+    @Step("Получить список товаров в корзине")
     public List<CartItem> getItems() {
         List<WebElement> elements = driver.findElements(CART_ITEMS);
         List<CartItem> items = new ArrayList<>();
@@ -33,10 +35,12 @@ public class CartPage extends BasePage {
         return items;
     }
 
+    @Step("Получить количество различных товаров в корзине")
     public int getItemsCount() {
         return getItems().size();
     }
 
+    @Step("Получить товар по имени")
     public CartItem getItemByName(String itemName) throws RuntimeException {
         for (CartItem item : getItems()) {
             if (item.getName().equals(itemName)) {
@@ -46,6 +50,7 @@ public class CartPage extends BasePage {
         throw new RuntimeException("Товар не найден в корзине: " + itemName);
     }
 
+    @Step("Проверить отображение товара")
     public boolean isItemDisplayed(String itemName) {
         for (CartItem item : getItems()) {
             if (item.getName().equals(itemName)) {
@@ -55,10 +60,12 @@ public class CartPage extends BasePage {
         return false;
     }
 
+    @Step("Нажать кнопку 'Checkout'")
     public void clickCheckout() {
         driver.findElement(CHECKOUT_BUTTON).click();
     }
 
+    @Step("Нажать кнопку 'Continue Shopping'")
     public void clickContinueShopping() {
         driver.findElement(CONTINUE_SHOPPING_BUTTON).click();
     }
@@ -77,22 +84,27 @@ public class CartPage extends BasePage {
             this.root = root;
         }
 
+        @Step("Получить имя товара")
         public String getName() {
             return root.findElement(name).getText();
         }
 
+        @Step("Получить количество товара")
         public String getQuantity() {
             return root.findElement(quantity).getText();
         }
 
+        @Step("Получить описание товара")
         public String getDescription() {
             return root.findElement(description).getText();
         }
 
+        @Step("Получить цену товара")
         public String getPrice() {
             return root.findElement(price).getText();
         }
 
+        @Step("Удалить товар из корзины")
         public void remove() {
             root.findElement(removeButton).click();
         }
