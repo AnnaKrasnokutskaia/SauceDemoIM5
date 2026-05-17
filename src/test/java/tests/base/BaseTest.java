@@ -18,7 +18,7 @@ import utils.TestListener;
 import java.time.Duration;
 import java.util.HashMap;
 
-@Listeners({TestListener.class, AllureTestNg.class})
+@Listeners({AllureTestNg.class, TestListener.class})
 public class BaseTest {
     protected WebDriver driver;
     protected LoginPage loginPage;
@@ -47,16 +47,14 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        iTestContext.setAttribute("driver", driver);
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
+        iTestContext.setAttribute("driver", driver);
     }
 
     @AfterMethod (alwaysRun = true)
     @Description("Закрытие браузера")
-    //впихнуть скрин сюда посоветовал чатгпт, потому что скрин не крепился к отчету,
-    //а снимался отдельно, когда был в листенере
     public void tearDown() {
         driver.quit();
     }
