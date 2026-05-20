@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsPage extends BasePage{
+public class ProductsPage extends BasePage<ProductsPage> {
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -21,23 +21,35 @@ public class ProductsPage extends BasePage{
     private final By CART_LINK = By.cssSelector("[data-test='shopping-cart-link']");
     private final By CART_BADGE = By.cssSelector("[data-test='shopping-cart-badge']");
 
+    @Override
+    protected void load() {
+        driver.get(BASE_URL + "inventory.html");
+    }
 
-    public String getTitle(){
+    @Override
+    protected void isLoaded() throws Error {
+        checkUrlContains("inventory.html");
+        checkElementIsDisplayed(TITLE, "заголовок Products");
+    }
+
+    public String getTitle() {
+        checkPageIsLoaded();
         return driver.findElement(TITLE).getText();
     }
 
-    public void open() {
-        driver.get(BASE_URL + "inventory.html");
+    public ProductsPage open() {
+        return get();
     }
 
     //Сделали отдельный класс карточек товара, теперь получаем их списком
     @Step("Получение списка товаров")
     public List<InventoryItem> getItems() {
+        checkPageIsLoaded();
         List<WebElement> elements = driver.findElements(INVENTORY_ITEMS);
         List<InventoryItem> items = new ArrayList<>();
 
         for (WebElement element : elements) {
-            items.add(new InventoryItem(element));
+            items.add(new InventoryItem(element, this));
         }
 
         return items;
@@ -46,6 +58,7 @@ public class ProductsPage extends BasePage{
     //получаем конкретную карточку товара по имени
     @Step("Получение карточки товара по имени")
     public InventoryItem getItemByName(String itemName) throws RuntimeException {
+        checkPageIsLoaded();
         for (InventoryItem item : getItems()) {
             if (item.getName().equals(itemName)) {
                 return item;
@@ -57,6 +70,7 @@ public class ProductsPage extends BasePage{
     //получение списка имён товаров
     @Step("Получение списка имён товаров")
     public List<String> getItemNames() {
+        checkPageIsLoaded();
         List<String> names = new ArrayList<>();
 
         for (InventoryItem item : getItems()) {
@@ -69,6 +83,7 @@ public class ProductsPage extends BasePage{
     //получение списка цен
     @Step("Получение списка цен")
     public List<Double> getItemPrices() {
+        checkPageIsLoaded();
         List<Double> prices = new ArrayList<>();
 
         for (InventoryItem item : getItems()) {
@@ -81,26 +96,32 @@ public class ProductsPage extends BasePage{
 
     //сортировка
     @Step("Сортировка '{value}'")
-    public void sortBy(String value) {
+    public ProductsPage sortBy(String value) {
+        checkPageIsLoaded();
         Select select = new Select(driver.findElement(SORTER));
         select.selectByValue(value);
+        return this;
     }
 
     //перейти в корзину по кнопочке
     @Step("Перейти в корзину по кнопочке")
-    public void openCart() {
+    public CartPage openCart() {
+        checkPageIsLoaded();
         driver.findElement(CART_LINK).click();
+        return new CartPage(driver).checkPageIsLoaded();
     }
 
     //получить счётчик товаров
     @Step("Получить счётчик товаров")
     public String getCartBadgeText() {
+        checkPageIsLoaded();
         return driver.findElement(CART_BADGE).getText();
     }
 
     //счётчик товаров отображается?
     @Step("Проверить отображение счетчика товаров")
     public boolean isCartBadgeDisplayed() {
+        checkPageIsLoaded();
         return !driver.findElements(CART_BADGE).isEmpty();
     }
 
@@ -108,6 +129,7 @@ public class ProductsPage extends BasePage{
 
         // Корневой элемент конкретного товара (div.inventory_item)
         private final WebElement root;
+        private final ProductsPage productsPage;
 
         // Локаторы внутренних элементов карточки товара
         private final By name = By.cssSelector("[data-test='inventory-item-name']");
@@ -117,8 +139,9 @@ public class ProductsPage extends BasePage{
         private final By image = By.cssSelector("img");
 
         //Конструктор принимает WebElement конкретного товара(driver.findElements(...))
-        public InventoryItem(WebElement root) {
+        public InventoryItem(WebElement root, ProductsPage productsPage) {
             this.root = root;
+            this.productsPage = productsPage;
         }
 
         //Получить название товара
@@ -153,20 +176,21 @@ public class ProductsPage extends BasePage{
 
         //Добавить товар в корзину
         @Step("Добавить товар в корзину")
-        public void addToCart() {
+        public ProductsPage addToCart() {
             if (!isInCart()) {
                 root.findElement(button).click();
             }
+            return productsPage.checkPageIsLoaded();
         }
 
         //Удалить товар из корзины
         @Step("Удалить товар из корзины")
-        public void removeFromCart() {
+        public ProductsPage removeFromCart() {
             if (isInCart()) {
                 root.findElement(button).click();
             }
+            return productsPage.checkPageIsLoaded();
         }
-
 
         @Step("Проверить отображение изображения")
         public boolean isImageDisplayed() {

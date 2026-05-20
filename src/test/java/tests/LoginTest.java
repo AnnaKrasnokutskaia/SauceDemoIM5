@@ -8,7 +8,7 @@ import tests.base.BaseTest;
 import static org.testng.Assert.*;
 public class LoginTest extends BaseTest {
 
-    @Test (description = "Проверка логина с корректными кредами",
+    @Test(description = "Проверка логина с корректными кредами",
             testName = "Проверка логина")
     @Description("Проверка логина с корректными кредами")
     @Epic("E2E")
@@ -20,8 +20,9 @@ public class LoginTest extends BaseTest {
     @Issue("ITM-5")
     @Owner("Anna Krasnokutskaia")
     public void checkLoginWithPositiveCred(){
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
         assertEquals(productsPage.getTitle(), "Products");
     }
 
@@ -49,8 +50,9 @@ public class LoginTest extends BaseTest {
     @Issue("ITM-5")
     @Owner("Anna Krasnokutskaia")
     public void negativeLogin(String user, String password, String message){
-        loginPage.open();
-        loginPage.loginWithCredentials(user, password);
+        loginPage
+                .open()
+                .loginWithCredentials(user, password);
         assertEquals(loginPage.getErrorMessage(), message);
     }
 }
