@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage extends BasePage<LoginPage> {
+public class LoginPage extends BasePage {
 
     //Описываем элементы
     private final By USERNAME_FIELD = By.id("user-name");
@@ -17,25 +17,19 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     @Override
-    protected void load() {
-        driver.get(BASE_URL);
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-        if (!driver.getCurrentUrl().equals(BASE_URL)) {
-            throw new AssertionError("Ожидалась страница логина, текущий URL: " + driver.getCurrentUrl());
-        }
-        checkElementIsDisplayed(LOGIN_BUTTON, "кнопка Login");
+    protected boolean isLoaded() {
+        return driver.getCurrentUrl().equals(BASE_URL) && isElementDisplayed(LOGIN_BUTTON);
     }
 
     //Описываем методы взаимодействия
     @Step("Открытие страницы логина")
     public LoginPage open() {
-        return get();
+        driver.get(BASE_URL);
+        checkPageIsLoaded();
+        return this;
     }
 
-    @Step("Вход в магазин с логином: '{login}' и паролем: '{password}'")
+    @Step("Вход в магазин с логином: '{user}' и паролем: '{password}'")
     public ProductsPage loginWithCredentials(String login, String password) {
         checkPageIsLoaded();
         driver.findElement(USERNAME_FIELD).sendKeys(login);

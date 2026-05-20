@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsPage extends BasePage<ProductsPage> {
+public class ProductsPage extends BasePage {
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -22,14 +22,8 @@ public class ProductsPage extends BasePage<ProductsPage> {
     private final By CART_BADGE = By.cssSelector("[data-test='shopping-cart-badge']");
 
     @Override
-    protected void load() {
-        driver.get(BASE_URL + "inventory.html");
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-        checkUrlContains("inventory.html");
-        checkElementIsDisplayed(TITLE, "заголовок Products");
+    protected boolean isLoaded() {
+        return driver.getCurrentUrl().contains("inventory.html") && isElementDisplayed(TITLE);
     }
 
     public String getTitle() {
@@ -38,7 +32,9 @@ public class ProductsPage extends BasePage<ProductsPage> {
     }
 
     public ProductsPage open() {
-        return get();
+        driver.get(BASE_URL + "inventory.html");
+        checkPageIsLoaded();
+        return this;
     }
 
     //Сделали отдельный класс карточек товара, теперь получаем их списком
@@ -108,7 +104,9 @@ public class ProductsPage extends BasePage<ProductsPage> {
     public CartPage openCart() {
         checkPageIsLoaded();
         driver.findElement(CART_LINK).click();
-        return new CartPage(driver).checkPageIsLoaded();
+        CartPage cartPage = new CartPage(driver);
+        cartPage.checkPageIsLoaded();
+        return cartPage;
     }
 
     //получить счётчик товаров
@@ -180,7 +178,8 @@ public class ProductsPage extends BasePage<ProductsPage> {
             if (!isInCart()) {
                 root.findElement(button).click();
             }
-            return productsPage.checkPageIsLoaded();
+            productsPage.checkPageIsLoaded();
+            return productsPage;
         }
 
         //Удалить товар из корзины
@@ -189,7 +188,8 @@ public class ProductsPage extends BasePage<ProductsPage> {
             if (isInCart()) {
                 root.findElement(button).click();
             }
-            return productsPage.checkPageIsLoaded();
+            productsPage.checkPageIsLoaded();
+            return productsPage;
         }
 
         @Step("Проверить отображение изображения")

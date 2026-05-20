@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutPage extends BasePage<CheckoutPage> {
+public class CheckoutPage extends BasePage {
 
     private final By TITLE = By.cssSelector("[data-test='title']");
 
@@ -12,18 +12,14 @@ public class CheckoutPage extends BasePage<CheckoutPage> {
     }
 
     @Override
-    protected void load() {
-        driver.get(BASE_URL + "checkout-step-one.html");
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-        checkUrlContains("checkout-step-one.html");
-        checkElementIsDisplayed(TITLE, "заголовок Checkout: Your Information");
+    protected boolean isLoaded() {
+        return driver.getCurrentUrl().contains("checkout-step-one.html") && isElementDisplayed(TITLE);
     }
 
     public CheckoutPage open() {
-        return get();
+        driver.get(BASE_URL + "checkout-step-one.html");
+        checkPageIsLoaded();
+        return this;
     }
 
     public String getTitle() {

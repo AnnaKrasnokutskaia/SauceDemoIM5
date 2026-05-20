@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartPage extends BasePage<CartPage> {
+public class CartPage extends BasePage {
 
     private final By TITLE = By.cssSelector("[data-test='title']");
     private final By CART_ITEMS = By.cssSelector("[data-test='inventory-item']");
@@ -20,18 +20,14 @@ public class CartPage extends BasePage<CartPage> {
     }
 
     @Override
-    protected void load() {
-        driver.get(BASE_URL + "cart.html");
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-        checkUrlContains("cart.html");
-        checkElementIsDisplayed(TITLE, "заголовок Your Cart");
+    protected boolean isLoaded() {
+        return driver.getCurrentUrl().contains("cart.html") && isElementDisplayed(TITLE);
     }
 
     public CartPage open() {
-        return get();
+        driver.get(BASE_URL + "cart.html");
+        checkPageIsLoaded();
+        return this;
     }
 
     public String getTitle() {
@@ -84,14 +80,18 @@ public class CartPage extends BasePage<CartPage> {
     public CheckoutPage clickCheckout() {
         checkPageIsLoaded();
         driver.findElement(CHECKOUT_BUTTON).click();
-        return new CheckoutPage(driver).checkPageIsLoaded();
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage.checkPageIsLoaded();
+        return checkoutPage;
     }
 
     @Step("Нажать кнопку 'Continue Shopping'")
     public ProductsPage clickContinueShopping() {
         checkPageIsLoaded();
         driver.findElement(CONTINUE_SHOPPING_BUTTON).click();
-        return new ProductsPage(driver).checkPageIsLoaded();
+        ProductsPage productsPage = new ProductsPage(driver);
+        productsPage.checkPageIsLoaded();
+        return productsPage;
     }
 
     public static class CartItem {
@@ -133,7 +133,8 @@ public class CartPage extends BasePage<CartPage> {
         @Step("Удалить товар из корзины")
         public CartPage remove() {
             root.findElement(removeButton).click();
-            return cartPage.checkPageIsLoaded();
+            cartPage.checkPageIsLoaded();
+            return cartPage;
         }
     }
 }
