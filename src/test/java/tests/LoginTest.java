@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.base.BaseTest;
@@ -7,11 +8,21 @@ import tests.base.BaseTest;
 import static org.testng.Assert.*;
 public class LoginTest extends BaseTest {
 
-    @Test (description = "Проверка логина с корректными кредами",
+    @Test(description = "Проверка логина с корректными кредами",
             testName = "Проверка логина")
+    @Description("Проверка логина с корректными кредами")
+    @Epic("E2E")
+    @Feature("Login in to Sausedemo")
+    @Story("Positive Login")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.saucedemo.com/")
+    @TmsLink("ITM-5")
+    @Issue("ITM-5")
+    @Owner("Anna Krasnokutskaia")
     public void checkLoginWithPositiveCred(){
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
         assertEquals(productsPage.getTitle(), "Products");
     }
 
@@ -29,9 +40,19 @@ public class LoginTest extends BaseTest {
     @Test(description = "Проверка логина с некорректными кредами",
             testName = "Проверка логина",
             dataProvider = "Тестовые данные для негативного логина")
+    @Description("Проверка логина с не корректными кредами")
+    @Epic("E2E")
+    @Feature("Login in to Sausedemo")
+    @Story("Negative Login")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.saucedemo.com/")
+    @TmsLink("ITM-5")
+    @Issue("ITM-5")
+    @Owner("Anna Krasnokutskaia")
     public void negativeLogin(String user, String password, String message){
-        loginPage.open();
-        loginPage.loginWithCredentials(user, password);
+        loginPage
+                .open()
+                .loginWithCredentials(user, password);
         assertEquals(loginPage.getErrorMessage(), message);
     }
 }

@@ -17,8 +17,9 @@ public class ProductsTest extends BaseTest {
     @Test(description = "Проверка наличия на странице корректного списка продуктов",
             testName = "Проверка наличия на странице корректного списка продуктов")
     public void checkProducts(){
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(productsPage.getItems().size(), 6);
         ProductsPage.InventoryItem item = productsPage.getItemByName("Sauce Labs Backpack");
@@ -35,12 +36,13 @@ public class ProductsTest extends BaseTest {
     @Test(description = "Проверка добавления и удаления товаров из корзины",
             testName = "Проверка добавления и удаления товаров из корзины")
     public void checkAddRemoveChart(){
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
         ProductsPage.InventoryItem item = productsPage.getItemByName("Sauce Labs Backpack");
         item.addToCart();
         Assert.assertTrue(item.isInCart());
-        Assert.assertEquals(productsPage.getCartBadgeText(), "1");
+        Assert.assertEquals(productsPage.getCartBadgeText(), "2");
         item.removeFromCart();
         Assert.assertFalse(item.isInCart());
         Assert.assertFalse(productsPage.isCartBadgeDisplayed());
@@ -51,9 +53,10 @@ public class ProductsTest extends BaseTest {
             testName = "Проверка сортировки в алфавитном порядке",
             groups = {"sort"})
     public void sortByNameAZTest() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
-        productsPage.sortBy("az");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce")
+                .sortBy("az");
 
         List<String> actual = productsPage.getItemNames();
         List<String> expected = new ArrayList<>(actual);
@@ -67,9 +70,10 @@ public class ProductsTest extends BaseTest {
             testName = "Проверка сортировки в обратном алфавитном порядке",
             groups = {"sort"})
     public void sortByNameZATest() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
-        productsPage.sortBy("za");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce")
+                .sortBy("za");
 
         List<String> actual = productsPage.getItemNames();
         List<String> expected = new ArrayList<>(actual);
@@ -83,9 +87,10 @@ public class ProductsTest extends BaseTest {
             testName = "Проверка сортировки по возрастанию",
             groups = {"sort"})
     public void sortByPriceAscTest() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
-        productsPage.sortBy("lohi");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce")
+                .sortBy("lohi");
 
         List<Double> actual = productsPage.getItemPrices();
         List<Double> expected = new ArrayList<>(actual);
@@ -99,9 +104,10 @@ public class ProductsTest extends BaseTest {
             testName = "Проверка сортировки по убыванию",
             groups = {"sort"})
     public void sortByPriceDescTest() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
-        productsPage.sortBy("hilo");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce")
+                .sortBy("hilo");
 
         List<Double> actual = productsPage.getItemPrices();
         List<Double> expected = new ArrayList<>(actual);

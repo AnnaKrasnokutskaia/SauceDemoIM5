@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,19 +13,29 @@ public class CartTest extends BaseTest {
     //добавление продукта в корзину
     @Test(description = "Проверка наличия в корзине добавленного продукта",
             testName = "Проверка наличия в корзине добавленного продукта")
+    @Description("Проверка наличия в корзине добавленного продукта")
+    @Epic("E2E")
+    @Feature("C")
+    @Story("Negative Login")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.saucedemo.com/")
+    @TmsLink("ITM-5")
+    @Issue("ITM-5")
+    @Owner("Anna Krasnokutskaia")
     public void checkAddedProductInCart() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
         //выбрали продукт
         ProductsPage.InventoryItem product = productsPage.getItemByName("Sauce Labs Backpack");
         //что искать будем на страничке, записали
         String expectedName = product.getName();
         String expectedDescription = product.getDescription();
         String expectedPrice = product.getPrice();
-        //добавили в корзину
-        product.addToCart();
-        //перешли в корзину
-        productsPage.openCart();
+        //добавили в корзину и перешли в корзину
+        cartPage = product
+                .addToCart()
+                .openCart();
         //нашли товар в корзине
         CartPage.CartItem cartItem = cartPage.getItemByName(expectedName);
         //тут важно, что именно из проверок упало, и да мне лень делить на один метод - один ассерт
@@ -45,14 +56,15 @@ public class CartTest extends BaseTest {
     @Test(description = "Проверка добавления в корзину нескольких продуктов",
             testName = "Проверка добавления в корзину нескольких продуктов")
     public void checkSeveralProductsInCart() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
 
         productsPage.getItemByName("Sauce Labs Backpack").addToCart();
         productsPage.getItemByName("Sauce Labs Bike Light").addToCart();
         productsPage.getItemByName("Sauce Labs Fleece Jacket").addToCart();
 
-        productsPage.openCart();
+        cartPage = productsPage.openCart();
 
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(cartPage.getItemsCount(), 3);
@@ -66,11 +78,14 @@ public class CartTest extends BaseTest {
     @Test(description = "Проверка удаления продукта из корзины",
             testName = "Проверка удаления продукта из корзины")
     public void checkRemoveProductFromCart() {
-        loginPage.open();
-        loginPage.loginWithCredentials("standard_user", "secret_sauce");
+        productsPage = loginPage
+                .open()
+                .loginWithCredentials("standard_user", "secret_sauce");
 
-        productsPage.getItemByName("Sauce Labs Backpack").addToCart();
-        productsPage.openCart();
+        cartPage = productsPage
+                .getItemByName("Sauce Labs Backpack")
+                .addToCart()
+                .openCart();
 
         cartPage.getItemByName("Sauce Labs Backpack").remove();
 

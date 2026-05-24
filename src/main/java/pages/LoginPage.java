@@ -1,9 +1,10 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
 
     //Описываем элементы
     private final By USERNAME_FIELD = By.id("user-name");
@@ -15,18 +16,31 @@ public class LoginPage extends BasePage{
         super(driver);
     }
 
-    //Описываем методы взаимодействия
-    public void open(){
-        driver.get(BASE_URL);
+    @Override
+    protected boolean isLoaded() {
+        return driver.getCurrentUrl().equals(BASE_URL) && isElementDisplayed(LOGIN_BUTTON);
     }
 
-    public void loginWithCredentials (String login, String password){
+    //Описываем методы взаимодействия
+    @Step("Открытие страницы логина")
+    public LoginPage open() {
+        driver.get(BASE_URL);
+        checkPageIsLoaded();
+        return this;
+    }
+
+    @Step("Вход в магазин с логином: '{user}' и паролем: '{password}'")
+    public ProductsPage loginWithCredentials(String login, String password) {
+        checkPageIsLoaded();
         driver.findElement(USERNAME_FIELD).sendKeys(login);
         driver.findElement(PASSWORD_FIELD).sendKeys(password);
         driver.findElement(LOGIN_BUTTON).click();
+        return new ProductsPage(driver);
     }
 
-    public String getErrorMessage(){
+    @Step("Получение сообщения об ошибке")
+    public String getErrorMessage() {
+        checkPageIsLoaded();
         return driver.findElement(ERROR_MESSAGE).getText();
     }
 }
