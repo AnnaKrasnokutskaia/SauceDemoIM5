@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -36,12 +37,20 @@ public class BaseTest {
             chromePrefs.put("profile.password_manager_enabled", false);
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--incognito");
+            options.addArguments("--headless");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-infobars");
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")){
-            driver = new FirefoxDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless");
+            options.addArguments("--incognito");
+            options.addArguments("--headless");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-popup-blocking");
+            options.addArguments("--disable-infobars");
+            driver = new FirefoxDriver(options);
         }
 
         driver.manage().window().maximize();
