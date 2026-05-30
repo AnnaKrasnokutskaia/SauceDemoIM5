@@ -33,9 +33,9 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    @Step("Вход в магазин с логином: '{user}' и паролем: '{password}'")
+    @Step("Вход в магазин с заданными значениями логина и пароля")
     public ProductsPage loginWithCredentials(String login, String password) {
-        log.info("Login with credentials '{}', '{}'", login, password);
+        log.info("Login with credentials");
         checkPageIsLoaded();
         driver.findElement(USERNAME_FIELD).sendKeys(login);
         driver.findElement(PASSWORD_FIELD).sendKeys(password);
