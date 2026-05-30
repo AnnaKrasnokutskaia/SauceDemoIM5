@@ -1,5 +1,6 @@
 target/
 .allure/
+.idea/
 src/test/java/utils/PropertyReader.java
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
