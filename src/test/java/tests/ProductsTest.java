@@ -19,7 +19,7 @@ public class ProductsTest extends BaseTest {
     public void checkProducts(){
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce");
+                .loginWithCredentials(login, password);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(productsPage.getItems().size(), 6);
         ProductsPage.InventoryItem item = productsPage.getItemByName("Sauce Labs Backpack");
@@ -38,11 +38,11 @@ public class ProductsTest extends BaseTest {
     public void checkAddRemoveChart(){
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce");
+                .loginWithCredentials(login, password);
         ProductsPage.InventoryItem item = productsPage.getItemByName("Sauce Labs Backpack");
         item.addToCart();
         Assert.assertTrue(item.isInCart());
-        Assert.assertEquals(productsPage.getCartBadgeText(), "2");
+        Assert.assertEquals(productsPage.getCartBadgeText(), "1");
         item.removeFromCart();
         Assert.assertFalse(item.isInCart());
         Assert.assertFalse(productsPage.isCartBadgeDisplayed());
@@ -55,7 +55,7 @@ public class ProductsTest extends BaseTest {
     public void sortByNameAZTest() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce")
+                .loginWithCredentials(login, password)
                 .sortBy("az");
 
         List<String> actual = productsPage.getItemNames();
@@ -72,7 +72,7 @@ public class ProductsTest extends BaseTest {
     public void sortByNameZATest() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce")
+                .loginWithCredentials(login, password)
                 .sortBy("za");
 
         List<String> actual = productsPage.getItemNames();
@@ -89,7 +89,7 @@ public class ProductsTest extends BaseTest {
     public void sortByPriceAscTest() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce")
+                .loginWithCredentials(login, password)
                 .sortBy("lohi");
 
         List<Double> actual = productsPage.getItemPrices();
@@ -106,7 +106,7 @@ public class ProductsTest extends BaseTest {
     public void sortByPriceDescTest() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce")
+                .loginWithCredentials(login, password)
                 .sortBy("hilo");
 
         List<Double> actual = productsPage.getItemPrices();

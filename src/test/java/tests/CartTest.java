@@ -25,7 +25,7 @@ public class CartTest extends BaseTest {
     public void checkAddedProductInCart() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce");
+                .loginWithCredentials(login, password);
         //выбрали продукт
         ProductsPage.InventoryItem product = productsPage.getItemByName("Sauce Labs Backpack");
         //что искать будем на страничке, записали
@@ -58,7 +58,7 @@ public class CartTest extends BaseTest {
     public void checkSeveralProductsInCart() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce");
+                .loginWithCredentials(login, password);
 
         productsPage.getItemByName("Sauce Labs Backpack").addToCart();
         productsPage.getItemByName("Sauce Labs Bike Light").addToCart();
@@ -80,7 +80,7 @@ public class CartTest extends BaseTest {
     public void checkRemoveProductFromCart() {
         productsPage = loginPage
                 .open()
-                .loginWithCredentials("standard_user", "secret_sauce");
+                .loginWithCredentials(login, password);
 
         cartPage = productsPage
                 .getItemByName("Sauce Labs Backpack")

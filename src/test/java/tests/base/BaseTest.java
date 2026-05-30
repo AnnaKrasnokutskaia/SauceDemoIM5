@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -13,6 +14,7 @@ import pages.CartPage;
 import pages.LoginPage;
 import pages.ProductsPage;
 import utils.AllureUtils;
+import utils.PropertyReader;
 import utils.TestListener;
 
 import java.time.Duration;
@@ -24,6 +26,8 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected ProductsPage productsPage;
     protected CartPage cartPage;
+    protected String login = System.getProperty("login", PropertyReader.getProperty("login"));
+    protected String password = System.getProperty("password", PropertyReader.getProperty("password"));
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
@@ -36,12 +40,20 @@ public class BaseTest {
             chromePrefs.put("profile.password_manager_enabled", false);
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--incognito");
+            options.addArguments("--headless");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-infobars");
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")){
-            driver = new FirefoxDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless");
+            options.addArguments("--incognito");
+            options.addArguments("--headless");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-popup-blocking");
+            options.addArguments("--disable-infobars");
+            driver = new FirefoxDriver(options);
         }
 
         driver.manage().window().maximize();
