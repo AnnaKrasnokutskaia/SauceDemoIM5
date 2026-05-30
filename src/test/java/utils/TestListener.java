@@ -1,5 +1,6 @@
 package utils;
 
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -8,22 +9,23 @@ import org.testng.ITestResult;
 import java.util.concurrent.TimeUnit;
 
 
+@Log4j2
 public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        System.out.printf("======================================== STARTING TEST %s ========================================%n", iTestResult.getName());
+        log.info("======================================== STARTING TEST {} ========================================", iTestResult.getName());
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        System.out.printf("======================================== FINISHED TEST %s Duration: %ss ========================================%n", iTestResult.getName(),
+        log.info("======================================== FINISHED TEST {} Duration: {}s ========================================", iTestResult.getName(),
                 getExecutionTime(iTestResult));
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        System.out.printf("======================================== FAILED TEST %s Duration: %ss ========================================%n", iTestResult.getName(),
+        log.error("======================================== FAILED TEST {} Duration: {}s ========================================", iTestResult.getName(),
                 getExecutionTime(iTestResult));
 
         WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("driver");
@@ -32,7 +34,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-        System.out.printf("======================================== SKIPPING TEST %s ========================================%n", iTestResult.getName());
+        log.info("======================================== SKIPPING TEST {} ========================================", iTestResult.getName());
         WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("driver");
         AllureUtils.takeScreenshot(driver);
     }

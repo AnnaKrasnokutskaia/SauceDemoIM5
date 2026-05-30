@@ -1,9 +1,11 @@
 package pages;
 
 import io.qameta.allure.Step;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Log4j2
 public class LoginPage extends BasePage {
 
     //Описываем элементы
@@ -18,12 +20,14 @@ public class LoginPage extends BasePage {
 
     @Override
     protected boolean isLoaded() {
+        log.info("Check login page is loaded");
         return driver.getCurrentUrl().equals(BASE_URL) && isElementDisplayed(LOGIN_BUTTON);
     }
 
     //Описываем методы взаимодействия
     @Step("Открытие страницы логина")
     public LoginPage open() {
+        log.info("Open login page");
         driver.get(BASE_URL);
         checkPageIsLoaded();
         return this;
@@ -31,6 +35,7 @@ public class LoginPage extends BasePage {
 
     @Step("Вход в магазин с логином: '{user}' и паролем: '{password}'")
     public ProductsPage loginWithCredentials(String login, String password) {
+        log.info("Login with credentials '{}', '{}'", login, password);
         checkPageIsLoaded();
         driver.findElement(USERNAME_FIELD).sendKeys(login);
         driver.findElement(PASSWORD_FIELD).sendKeys(password);
@@ -40,6 +45,7 @@ public class LoginPage extends BasePage {
 
     @Step("Получение сообщения об ошибке")
     public String getErrorMessage() {
+        log.info("Get login error message");
         checkPageIsLoaded();
         return driver.findElement(ERROR_MESSAGE).getText();
     }
