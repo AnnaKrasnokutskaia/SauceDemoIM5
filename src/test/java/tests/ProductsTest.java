@@ -42,7 +42,7 @@ public class ProductsTest extends BaseTest {
         ProductsPage.InventoryItem item = productsPage.getItemByName("Sauce Labs Backpack");
         item.addToCart();
         Assert.assertTrue(item.isInCart());
-        Assert.assertEquals(productsPage.getCartBadgeText(), "2");
+        Assert.assertEquals(productsPage.getCartBadgeText(), "1");
         item.removeFromCart();
         Assert.assertFalse(item.isInCart());
         Assert.assertFalse(productsPage.isCartBadgeDisplayed());
